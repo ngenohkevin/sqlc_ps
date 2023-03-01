@@ -15,7 +15,6 @@ OFFSET $3;
 
 -- name: UpdateTodo :one
 UPDATE todos
-SET task = $2,
-    done = $3
+SET task = $2, done = $3
 WHERE id = $1
 RETURNING *;

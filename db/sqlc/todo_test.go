@@ -53,3 +53,39 @@ func TestListTodo(t *testing.T) {
 	}
 
 }
+
+func TestGetTodo(t *testing.T) {
+	user := createRandomUser(t)
+	todo1 := createRandomTodo(t, user)
+
+	todo2, err := testQueries.GetTodo(context.Background(), todo1.ID)
+	require.NoError(t, err)
+	require.NotEmpty(t, todo2)
+
+	require.Equal(t, todo1.ID, todo2.ID)
+	require.Equal(t, todo1.UsersID, todo2.UsersID)
+	require.Equal(t, todo1.Task, todo2.Task)
+	require.Equal(t, todo1.Done, todo2.Done)
+}
+
+func TestUpdateTodo(t *testing.T) {
+
+	user := createRandomUser(t)
+	todo1 := createRandomTodo(t, user)
+
+	arg := UpdateTodoParams{
+		ID:   todo1.ID,
+		Task: util.RandomTasks(),
+		Done: util.RandomBool(),
+	}
+
+	todo2, err := testQueries.UpdateTodo(context.Background(), arg)
+	require.NoError(t, err)
+	require.NotEmpty(t, todo2)
+
+	require.Equal(t, todo1.ID, todo2.ID)
+	require.Equal(t, todo1.UsersID, todo2.UsersID)
+	require.Equal(t, arg.Task, todo2.Task)
+	require.Equal(t, arg.Done, todo2.Done)
+
+}

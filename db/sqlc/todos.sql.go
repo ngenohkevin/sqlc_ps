@@ -93,8 +93,7 @@ func (q *Queries) ListTodo(ctx context.Context, arg ListTodoParams) ([]Todo, err
 
 const updateTodo = `-- name: UpdateTodo :one
 UPDATE todos
-SET task = $2,
-    done = $3
+SET task = $2, done = $3
 WHERE id = $1
 RETURNING id, users_id, task, done
 `
