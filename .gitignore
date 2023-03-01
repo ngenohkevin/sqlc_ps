@@ -1,0 +1,4 @@
+.idea
+.env
+emp_data.csv
+psql_tut.sql
