@@ -32,5 +32,10 @@ func TestCreateTodo(t *testing.T) {
 }
 
 func TestListTodo(t *testing.T) {
+	user := createRandomUser(t)
+
+	for i := 0; i < 10; i++ {
+		createRandomTodo(t, user)
+	}
 
 }
