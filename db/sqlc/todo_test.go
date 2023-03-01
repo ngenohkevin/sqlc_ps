@@ -38,4 +38,18 @@ func TestListTodo(t *testing.T) {
 		createRandomTodo(t, user)
 	}
 
+	arg := ListTodoParams{
+		UsersID: user.ID,
+		Limit:   5,
+		Offset:  5,
+	}
+	todos, err := testQueries.ListTodo(context.Background(), arg)
+	require.NoError(t, err)
+	require.Len(t, todos, 5)
+
+	for _, todo := range todos {
+		require.NotEmpty(t, todo)
+		require.Equal(t, arg.UsersID, todo.UsersID)
+	}
+
 }
