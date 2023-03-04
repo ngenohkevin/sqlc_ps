@@ -18,3 +18,7 @@ UPDATE todos
 SET task = $2, done = $3
 WHERE id = $1
 RETURNING *;
+
+-- name: DeleteTodo :exec
+DELETE FROM todos
+WHERE users_id = $1;

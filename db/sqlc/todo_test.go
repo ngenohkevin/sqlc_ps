@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"database/sql"
 	"github.com/ngenohkevin/sqlc_ps/util"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -87,5 +88,20 @@ func TestUpdateTodo(t *testing.T) {
 	require.Equal(t, todo1.UsersID, todo2.UsersID)
 	require.Equal(t, arg.Task, todo2.Task)
 	require.Equal(t, arg.Done, todo2.Done)
+
+}
+
+func TestDeleteTodo(t *testing.T) {
+	user := createRandomUser(t)
+	todo1 := createRandomTodo(t, user)
+
+	err := testQueries.DeleteTodo(context.Background(), todo1.UsersID)
+	require.NoError(t, err)
+
+	todo2, err := testQueries.GetTodo(context.Background(), todo1.UsersID)
+	require.Error(t, err)
+
+	require.EqualError(t, err, sql.ErrNoRows.Error())
+	require.Empty(t, todo2)
 
 }
