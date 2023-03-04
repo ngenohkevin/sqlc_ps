@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"github.com/ngenohkevin/sqlc_ps/util"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -101,7 +102,7 @@ func TestDeleteTodo(t *testing.T) {
 
 	todo2, err := testQueries.GetTodo(context.Background(), todo1.UsersID)
 	require.Error(t, err)
-	//fmt.Println("Get Todo Error: ", err)
+	fmt.Println("Get Todo Error: ", err)
 
 	require.EqualError(t, err, sql.ErrNoRows.Error())
 	require.Empty(t, todo2)
