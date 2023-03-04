@@ -80,3 +80,43 @@ func (server *Server) listUser(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, users)
 }
+
+type deleteUserRequest struct {
+	ID      int64 `uri:"id" binding:"required,min=1"`
+	UsersID int64 `uri:"id" binding:"required,min=1"`
+}
+
+func (server *Server) deleteUser(ctx *gin.Context) {
+	var req deleteUserRequest
+
+	if err := ctx.ShouldBindUri(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	//Check if the row is empty
+	_, err := server.store.GetUser(ctx, req.ID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+	}
+
+	// Delete todo row first before proceeding to delete users
+	err = server.store.DeleteTodo(ctx, req.UsersID)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, errorResponse(err))
+	}
+
+	err = server.store.DeleteUser(ctx, req.ID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"Success": "Deleted",
+	})
+
+}
