@@ -3,23 +3,22 @@ package db
 import (
 	"database/sql"
 	_ "github.com/lib/pq"
+	"github.com/ngenohkevin/sqlc_ps/util"
 	"log"
 	"os"
 	"testing"
-)
-
-const (
-	dbDriver = "postgres"
-	dbSource = "postgresql://postgres:dylstar20@localhost:5432/sqlc_db?sslmode=disable"
 )
 
 var testQueries *Queries
 var testDB *sql.DB
 
 func TestMain(m *testing.M) {
-	var err error
+	config, err := util.LoadConfig("../..")
+	if err != nil {
+		log.Fatal("cannot load config", err)
+	}
 
-	testDB, err = sql.Open(dbDriver, dbSource)
+	testDB, err = sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
 		log.Fatal("Error connecting to the database", err)
 	}
