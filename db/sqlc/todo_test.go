@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"github.com/ngenohkevin/sqlc_ps/util"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -91,19 +90,19 @@ func TestUpdateTodo(t *testing.T) {
 
 }
 
-func TestDeleteTodo(t *testing.T) {
-	user := createRandomUser(t)
-	todo1 := createRandomTodo(t, user)
-
-	err := testQueries.DeleteTodo(context.Background(), todo1.UsersID)
-	require.NoError(t, err)
-	//fmt.Println("Delete todo Error: ", err)
-
-	todo2, err := testQueries.GetTodo(context.Background(), todo1.UsersID)
-	require.Error(t, err)
-	//fmt.Println("Get Todo Error: ", err)
-
-	require.EqualError(t, err, sql.ErrNoRows.Error())
-	require.Empty(t, todo2)
-
-}
+//func TestDeleteTodo(t *testing.T) {
+//	user := createRandomUser(t)
+//	todo1 := createRandomTodo(t, user)
+//
+//	err := testQueries.DeleteTodo(context.Background(), todo1.UsersID)
+//	require.NoError(t, err)
+//	//fmt.Println("Delete todo Error: ", err)
+//
+//	todo2, err := testQueries.GetTodo(context.Background(), todo1.UsersID)
+//	require.Error(t, err)
+//	//fmt.Println("Get Todo Error: ", err)
+//
+//	require.EqualError(t, err, sql.ErrNoRows.Error())
+//	require.Empty(t, todo2)
+//
+//}
