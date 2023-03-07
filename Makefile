@@ -18,4 +18,7 @@ test:
 server:
 	go run main.go
 
-.PHONY:  dropdb migrateup migratedown sqlc test
+mock:
+	mockgen -build_flags=--mod=mod -package mockdb -destination db/mock/store.go github.com/ngenohkevin/sqlc_ps/db/sqlc Store
+
+.PHONY:  dropdb migrateup migratedown sqlc test mock
