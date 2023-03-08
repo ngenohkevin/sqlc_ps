@@ -19,6 +19,8 @@ import (
 func TestGetUserAPI(t *testing.T) {
 	user := randomUser()
 
+	//testcases.....
+
 	testCases := []struct {
 		name          string
 		userID        int64
