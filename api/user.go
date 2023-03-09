@@ -36,6 +36,7 @@ type getUserRequest struct {
 	ID int64 `uri:"id" binding:"required,min=1"`
 }
 
+// get user handler
 func (server *Server) getUser(ctx *gin.Context) {
 	var req getUserRequest
 	if err := ctx.ShouldBindUri(&req); err != nil {
